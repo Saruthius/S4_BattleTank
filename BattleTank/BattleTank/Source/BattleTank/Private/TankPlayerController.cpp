@@ -2,6 +2,21 @@
 
 #include "TankPlayerController.h"
 
+void ATankPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	ControlledTank = GetControlledTank();
+
+	if (!ControlledTank)
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Tank is being controlled!"))
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controlled Tank = %s"), *(ControlledTank->GetName()))
+	}
+}
 
 ATank * ATankPlayerController::GetControlledTank() const
 {
