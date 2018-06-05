@@ -42,7 +42,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	// Checks both if we hit something and changes Hit Location to where we hit something
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit Location : %s"), *HitLocation.ToString())	
+		//UE_LOG(LogTemp, Warning, TEXT("Hit Location : %s"), *HitLocation.ToString())	
 		
 
 		// TODO Tell controlled tank to aim at this point
@@ -54,54 +54,37 @@ void ATankPlayerController::AimTowardsCrosshair()
 // Gets the location of linetrace through crosshair, true if it hits landscape
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
-	/*
-	MY ATTEMPT
 
-
-	// OUT PARAMETER for what we hit through the raycast
-	FHitResult Hit;
-
-	// OUT PARAMETERS for the start of the raycast
-	FVector ViewLocation;
-	FRotator ViewRotation;
-
-	// Return value for if we hit something
-	bool GetHit = false;
-
-	// Sets the view out parameters
-	GetPlayerViewPoint(ViewLocation, ViewRotation);
-
-	// Raycast through crosshair
-	GetHit = GetWorld()->LineTraceSingleByChannel
-	(
-		Hit, // OUT PARAMETER
-		ViewLocation,
-		ViewLocation * (10000, 10000, 10000),
-		ECollisionChannel::ECC_Visibility
-	);
-
-	// If we Hit something
-	if (GetHit)
-	{
-		// Sets Hitlocation to where we hit something with the linetrace
-		OutHitLocation = Hit.ImpactPoint;
-	}
-	// Returns whether or not we hit something with the linetrace
-	return GetHit;
-	
-	*/
-
-	/// Find Crosshair position
+	/// Find Crosshair position in pixel coordinates
 	// OUT PARAMETERS for viewport size
 	int32 ViewportSizeX = 0, ViewportSizeY = 0;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 
 	// Gets the location of the crosshair on the screen
 	FVector2D ScreenLocation = {ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation};
-	UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString())
+
+	// OUT PARAMETERS for the deprojection
+	FVector LookDirection;
 
 	// "De-project" screen position of crosshair to a world direction
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Crosshair pointing at: %s"), *LookDirection.ToString())
+	}
+
 	// Linetrace along that world direction
 	// See what we hit up to max range	
 	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& OutLookDirection) const
+{
+	FVector CameraWorldLocation;
+	return DeprojectScreenPositionToWorld
+	(
+		ScreenLocation.X, 
+		ScreenLocation.Y, 
+		CameraWorldLocation, 
+		OutLookDirection
+	);
 }
