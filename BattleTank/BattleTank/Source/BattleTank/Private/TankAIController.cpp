@@ -16,7 +16,7 @@ void ATankAIController::BeginPlay()
 	}
 	else
 	{
-		if (!PlayerPawn)
+		if (!PlayerTank)
 		{
 			UE_LOG(LogTemp, Error, TEXT("No Player Tank can be found by %s!"), *(ControlledTank->GetName()))
 		}
