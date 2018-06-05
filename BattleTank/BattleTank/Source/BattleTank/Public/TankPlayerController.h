@@ -33,4 +33,11 @@ private:
 	bool GetSightRayHitLocation(FVector &OutHitLocation) const;
 	
 	ATank * ControlledTank = nullptr;
+
+	// Variables for the location of the crosshair as a percentage of the screen
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.33333f;
+
 };
