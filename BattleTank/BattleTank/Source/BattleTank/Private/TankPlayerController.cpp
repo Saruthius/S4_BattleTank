@@ -42,10 +42,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	// Checks both if we hit something and changes Hit Location to where we hit something
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Hit Location : %s"), *HitLocation.ToString())	
-		
-
-		// TODO Tell controlled tank to aim at this point
+		ControlledTank->AimAt(HitLocation);
 	}
 
 
@@ -72,11 +69,9 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		// Linetrace along that world direction, and if something is hit
 		if (GetLookVectorHitLocation(LookDirection, OutHitLocation))
 		{ 
-			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *OutHitLocation.ToString())
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *OutHitLocation.ToString())
 		}
 	}
 
