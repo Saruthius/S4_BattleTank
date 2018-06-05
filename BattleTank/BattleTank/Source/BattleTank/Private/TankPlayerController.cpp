@@ -21,7 +21,7 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	/AimTowardsCrosshair();
+	AimTowardsCrosshair();
 }
 
 ATank * ATankPlayerController::GetControlledTank() const
@@ -31,5 +31,57 @@ ATank * ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	// Ensures we have a controlled Tank - pointer protection
+	if (!ControlledTank)
+	{
+		return;
+	}
 
+	// OUT PARAMETER
+	FVector HitLocation;
+	// Checks both if we hit something and changes Hit Location to where we hit something
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit Location : %s"), *HitLocation.ToString())	
+		
+
+		// TODO Tell controlled tank to aim at this point
+	}
+
+
+}
+
+// Gets the location of linetrace through crosshair, true if it hits landscape
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
+{
+	// OUT PARAMETER for what we hit through the raycast
+	FHitResult Hit;
+
+	// OUT PARAMETERS for the start of the raycast
+	FVector ViewLocation;
+	FRotator ViewRotation;
+
+	// Return value for if we hit something
+	bool GetHit = false;
+
+	// Sets the view out parameters
+	GetPlayerViewPoint(ViewLocation, ViewRotation);
+
+	// Raycast through crosshair
+	GetHit = GetWorld()->LineTraceSingleByChannel
+	(
+		Hit, // OUT PARAMETER
+		ViewLocation,
+		ViewLocation * (10000, 10000, 10000),
+		ECollisionChannel::ECC_Visibility
+	);
+
+	// If we Hit something
+	if (GetHit)
+	{
+		// Sets Hitlocation to where we hit something with the linetrace
+		OutHitLocation = Hit.ImpactPoint;
+	}
+	// Returns whether or not we hit something with the linetrace
+	return GetHit;
 }

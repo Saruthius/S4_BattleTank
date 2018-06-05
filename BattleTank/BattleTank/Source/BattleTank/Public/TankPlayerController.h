@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Tank.h"
+#include "Engine/World.h"
 #include "TankPlayerController.generated.h"
 
 /**
@@ -28,5 +29,8 @@ public:
 
 private:
 
+	// Returns an OUT PARAMETER of where we hit something, and a bool of if we hit something
+	bool GetSightRayHitLocation(FVector &OutHitLocation) const;
+	
 	ATank * ControlledTank = nullptr;
 };
