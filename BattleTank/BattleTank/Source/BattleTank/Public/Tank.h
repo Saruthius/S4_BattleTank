@@ -33,4 +33,8 @@ public:
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 	void AimAt(FVector HitLocation);
+
+private:
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 100000; // TODO Find sensible default
 };
