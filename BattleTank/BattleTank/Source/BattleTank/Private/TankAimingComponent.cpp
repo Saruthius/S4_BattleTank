@@ -16,20 +16,6 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
-
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-}
-
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel)
@@ -44,31 +30,36 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	// Direction for the barrel to shoot for the projectile to hit the crosshair - 
 	// This is the end result of everything here, for the most part
 	FVector AimDirection; 
-	
-	// Weird formatting to adjust for long if statement
-	if 
+
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
 	(
-	// Input for above if statement - returns a bool
-		UGameplayStatics::SuggestProjectileVelocity
-		// Parameters for above function
-		(
-			this,
-			OutLaunchVelocity,	// OUT PARAMETER
-			StartLocation,
-			HitLocation,
-			LaunchSpeed,
-			false,				// Ignores the high arc and chooses the low arc
-			0,					// TODO Make actual projectile and change this to actual radius
-			0,					// Does not override gravity
-			ESuggestProjVelocityTraceOption::DoNotTrace
-		)
-	)
+		this,
+		OutLaunchVelocity,	// OUT PARAMETER
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+	
+	if (bHaveAimSolution)
 	{
 		// Turns the launch velocity vector into a unit vector
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
-		auto TankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("Tank %s is Aiming at %s"), *TankName, *AimDirection.ToString())
+		MoveBarrelTowards(AimDirection);
 	}
 
 	// If we don't find a solution for suggessting the projectile velocity, we do nothing
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) 
+{
+	// Work out difference between current barrel rotation and AimDirection
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator: %s"), *DeltaRotator.ToString())
+
+	// Move the barrel the right amount this frame
+	// Given a max elevation speed and a frame time
+	return;
 }
