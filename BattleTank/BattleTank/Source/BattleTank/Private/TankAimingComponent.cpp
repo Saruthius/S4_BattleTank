@@ -2,7 +2,10 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "Components/StaticMeshComponent.h"
+#include "GameFramework/Actor.h"
 
 
 // Sets default values for this component's properties
@@ -40,7 +43,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
-		ESuggestProjVelocityTraceOption::DoNotTrace
+		false,				// Default Value
+		0,					// Default Value
+		0,					// Default Value
+		ESuggestProjVelocityTraceOption::DoNotTrace			// Default Value - parameter must be present to avoid bug
 	);
 	
 	if (bHaveAimSolution)
@@ -49,7 +55,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Barrel->Elevate() called at speed %f"), Time, 5)
+		UE_LOG(LogTemp, Warning, TEXT("%f: Barrel->Elevate() called at speed %f"), Time, 5.0f)
 	}
 	else
 	{
