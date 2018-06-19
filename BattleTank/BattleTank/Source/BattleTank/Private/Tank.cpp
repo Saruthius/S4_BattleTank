@@ -4,6 +4,7 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "TankAimingComponent.h"
+#include "Engine/World.h"
 
 
 // Sets default values
@@ -14,7 +15,6 @@ ATank::ATank()
 
 	// No need to protect pointers added on construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-
 }
 
 void ATank::BeginPlay()
@@ -38,7 +38,6 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 
@@ -46,4 +45,9 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+}
+
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%f: Player firing cannon!"), GetWorld()->GetTimeSeconds())
 }
