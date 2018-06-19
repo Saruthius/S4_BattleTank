@@ -68,16 +68,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	// "De-project" screen position of crosshair to a world direction
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{	
-		// Linetrace along that world direction, and if something is hit
-		if (GetLookVectorHitLocation(LookDirection, OutHitLocation))
-		{ 
-		}
-		else
-		{
-		}
+		// Linetrace along that world direction, and returns whether or not we hit something
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
 
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& OutLookDirection) const
