@@ -32,6 +32,7 @@ private:
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& OutLookDirection) const;
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const;
 	
+	// Variable for the tank being controlled
 	ATank* ControlledTank = nullptr;
 
 	// Variables for the location of the crosshair as a percentage of the screen
