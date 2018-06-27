@@ -36,12 +36,12 @@ private:
 	ATank* ControlledTank = nullptr;
 
 	// Variables for the location of the crosshair as a percentage of the screen
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333f;
 
 	// Sets the range for the linetrace for aiming at 10 km
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;
 };

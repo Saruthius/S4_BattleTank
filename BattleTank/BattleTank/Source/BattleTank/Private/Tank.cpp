@@ -51,7 +51,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	bool isReloaded = ((GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds);
 
 	// Pointer protection
 	if (Barrel && isReloaded)
@@ -64,8 +64,15 @@ void ATank::Fire()
 			Barrel->GetSocketRotation(FName("Projectile"))
 		);
 
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
+		if (Projectile)
+		{
+			Projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = GetWorld()->GetTimeSeconds();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%f: No projectile created!"), GetWorld()->GetTimeSeconds())
+		}
 	}
 
 	return;
