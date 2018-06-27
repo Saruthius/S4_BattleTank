@@ -17,8 +17,12 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 public:
 
+	// Outdated Getters that are not needed
+	/*
 	ATank * GetControlledTank() const;
 	ATank * GetPlayerTank() const;
+	*/
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -26,5 +30,4 @@ private:
 
 	ATank * ControlledTank = nullptr;	
 	ATank * PlayerTank = nullptr;
-
 };

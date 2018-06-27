@@ -52,4 +52,8 @@ private:
 
 	// Pointer to barrel for spawning projectile
 	UTankBarrel* Barrel = nullptr;
+
+	// Helper variables for time between firing events
+	float ReloadTimeInSeconds = 3.0f;
+	double LastFireTime = 0.0;
 };
