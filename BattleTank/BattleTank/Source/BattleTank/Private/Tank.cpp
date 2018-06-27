@@ -4,6 +4,7 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "TankAimingComponent.h"
+#include "Projectile.h"
 #include "Engine/World.h"
 
 
@@ -24,6 +25,7 @@ void ATank::BeginPlay()
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	Barrel = BarrelToSet;
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
 
@@ -50,4 +52,19 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%f: Player firing cannon!"), GetWorld()->GetTimeSeconds())
+	
+	// Pointer protection
+	if (!Barrel)
+	{
+		return;
+	}
+
+	// Spawns in a projectile at the end of the barrel - where the socket for the projectile is
+	GetWorld()->SpawnActor<AProjectile>
+	(
+		ProjectileBlueprint,
+		Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile"))
+	);
 }
+
