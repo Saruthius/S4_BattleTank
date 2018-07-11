@@ -6,22 +6,13 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet)
-	{
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: One or more of the tracks trying to be set does not exist!"), Time)
-			return;
-	}
-
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f: Intend move forward = %f"), Time, Throw)
-
+	// Pointer Protection
 	if (!LeftTrack || !RightTrack)
 	{
 			auto Time = GetWorld()->GetTimeSeconds();
@@ -35,4 +26,18 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 	// TODO Prevent double speed due to dual control use - fly-by-wire and the individual track controls
 }
 
+void UTankMovementComponent::IntendTurnRight(float Throw)
+{
+	// Pointer Protection
+	if (!LeftTrack || !RightTrack)
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: One or more of the tracks trying to move does not exist!"), Time)
+		return;
+	}
 
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
+
+	// TODO Prevent double speed due to dual control use - fly-by-wire and the individual track controls
+}
