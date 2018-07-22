@@ -46,7 +46,12 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 {
 	// No need to call Super as we are completely replacing functionality
 
-	auto TankName = GetOwner()->GetName();
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f:\tTank %s \twants to move at velocity \t%s"), Time, *TankName, *MoveVelocity.ToString())
+	// Ensures we are using unit vectors for proper speeds
+	auto NormalizedVelocity = MoveVelocity.GetSafeNormal();
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+
+	// Uses the dot product to figure out how fast forward we are supposed to be going
+	auto ForwardThrow = FVector::DotProduct(NormalizedVelocity, TankForward);
+
+	IntendMoveForward(ForwardThrow);
 }
