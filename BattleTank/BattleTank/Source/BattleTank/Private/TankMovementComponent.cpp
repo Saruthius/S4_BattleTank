@@ -22,8 +22,6 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-
-	// TODO Prevent double speed due to dual control use - fly-by-wire and the individual track controls
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
@@ -38,8 +36,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
-
-	// TODO Prevent double speed due to dual control use - fly-by-wire and the individual track controls
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
