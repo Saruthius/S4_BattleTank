@@ -26,6 +26,10 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+	// Radius for the tank to stop around the player tank to avoid crowding
+	UPROPERTY(EditDefaultsOnly)
+	float AcceptanceRadius = 3000; // TODO Centimeters?
+
 private:
 
 	ATank * ControlledTank = nullptr;	

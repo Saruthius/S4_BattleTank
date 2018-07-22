@@ -14,7 +14,9 @@ void UTankTrack::SetThrottle(float Throttle)
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 
 	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *Name, Throttle)
+
+	// TODO Remove this log
+	// UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *Name, Throttle)
 }
 
 
