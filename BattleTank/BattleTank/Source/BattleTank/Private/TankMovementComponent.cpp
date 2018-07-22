@@ -50,8 +50,12 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto NormalizedVelocity = MoveVelocity.GetSafeNormal();
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 
-	// Uses the dot product to figure out how fast forward we are supposed to be going
+	// Uses the dot and cross product to figure out how fast we are supposed to be going
+	// And in which directions and rotations
 	auto ForwardThrow = FVector::DotProduct(NormalizedVelocity, TankForward);
+	auto RightThrow = FVector::CrossProduct(NormalizedVelocity, TankForward).Z;
 
+	// Moves the tank
 	IntendMoveForward(ForwardThrow);
+	IntendTurnRight(RightThrow);
 }
