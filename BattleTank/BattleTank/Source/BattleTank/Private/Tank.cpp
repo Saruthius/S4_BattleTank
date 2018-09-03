@@ -14,11 +14,16 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+
+	UE_LOG(LogTemp, Warning, TEXT("BANJO: Tank Constructor from Code"))
 }
 
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("BANJO: Tank Begin Play from Code"))
+
+	// Needed for Blueprint BeginPlay to run
+	Super::BeginPlay(); 
 }
 
 // Aims at the specified location
@@ -26,7 +31,6 @@ void ATank::AimAt(FVector HitLocation)
 {
 	if (!TankAimingComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank Aiming Component is Null!"))
 		return;
 	}
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
