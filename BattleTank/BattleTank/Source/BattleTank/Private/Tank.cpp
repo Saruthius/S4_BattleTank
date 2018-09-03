@@ -14,13 +14,14 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
-	UE_LOG(LogTemp, Warning, TEXT("BANJO: Tank Constructor from Code"))
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s BANJO: Tank Constructor from Code"), *TankName)
 }
 
 void ATank::BeginPlay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("BANJO: Tank Begin Play from Code"))
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s BANJO: Tank Begin Play from Code"), *TankName)
 
 	// Needed for Blueprint BeginPlay to run
 	Super::BeginPlay(); 
