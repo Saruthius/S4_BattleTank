@@ -24,6 +24,11 @@ void ATank::BeginPlay()
 // Aims at the specified location
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Tank Aiming Component is Null!"))
+		return;
+	}
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
